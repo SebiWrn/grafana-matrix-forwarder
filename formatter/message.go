@@ -1,9 +1,11 @@
 package formatter
 
 import (
+	"golang.org/x/exp/maps"
 	"grafana-matrix-forwarder/matrix"
 	"grafana-matrix-forwarder/model"
 	"log"
+	"slices"
 )
 
 type alertMessageData struct {
@@ -34,6 +36,9 @@ func GenerateMessage(alert model.AlertData, metricRounding int) (matrix.Formatte
 		log.Printf("alert received with unknown state: %s", alert.State)
 	}
 	html, err := executeHtmlTemplate(alertMessageTemplate, messageData)
+	if slices.Contains(maps.Keys(alert.Labels), "err_type") && alert.Labels["err_type"] == "disk_full" {
+		html, err = executeHtmlTemplate(alertMessageDiskFullTemplate, messageData)
+	}
 	if err != nil {
 		return matrix.FormattedMessage{}, err
 	}

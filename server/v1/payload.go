@@ -55,6 +55,7 @@ func (payload alertPayload) ToForwarderData() []model.AlertData {
 			Message:  alert.Annotations["summary"],
 			RawData:  rawData,
 			Tags:     map[string]string{},
+			Labels:   alert.Labels,
 			EvalMatches: []struct {
 				Value  float64
 				Metric string

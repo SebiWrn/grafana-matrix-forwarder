@@ -17,6 +17,7 @@ type AlertData struct {
 	Message     string
 	RawData     string
 	Tags        map[string]string
+	Labels      map[string]string
 	EvalMatches []struct {
 		Value  float64
 		Metric string
